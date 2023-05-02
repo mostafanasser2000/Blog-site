@@ -23,9 +23,5 @@ class Migration(migrations.Migration):
             name='image',
             field=models.ImageField(blank=True, null=True, upload_to=''),
         ),
-        migrations.AddField(
-            model_name='post',
-            name='category',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to='blog.category'),
-        ),
+    
     ]
