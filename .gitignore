@@ -1,4 +1,4 @@
-core/blog/migrations/__pycache__
-core/blog/__pycache__
-core/users/__pycache__
-core/users/migrations/__pycache__
+blog/migrations/__pycache__
+blog/__pycache__
+users/__pycache__
+users/migrations/__pycache__
