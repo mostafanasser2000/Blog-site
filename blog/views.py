@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Post
+from .models import Post, Category
 from .forms import PostForm
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -78,3 +78,9 @@ def delete_post(request, id):
 def post_item(request, id):
     post = get_object_or_404(Post, pk=id)
     return render(request, "blog/post.html", {'post': post})
+
+
+def post_category(request, id):
+    category = Category.objects.get(id=id)
+    posts = Post.objects.filter(categories__title__in=[category])
+    return render(request, 'blog/post_by_category.html', {'posts': posts})
