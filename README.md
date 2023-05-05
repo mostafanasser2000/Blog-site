@@ -4,6 +4,6 @@ Blog Site Using Django
 
 ## Preview
 
+https://user-images.githubusercontent.com/67506662/236578121-bef6bc86-a66b-4a6c-b39d-7d66b8267482.mp4
 
-https://user-images.githubusercontent.com/67506662/236577885-f30e18a9-4957-4167-8f10-cfc99ab95c1c.mp4
 
