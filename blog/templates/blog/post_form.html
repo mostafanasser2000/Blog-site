@@ -2,10 +2,18 @@
 
 
 {% block content %}
-<h2>{% if id %} Edit {% else %} New {% endif %}Post</h2>
-<form action="" method="post">
-    {% csrf_token %}
-    {{form.as_p}}
-    <input type="submit" value="Save">
-</form>
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <h2>{% if id %} Edit {% else %} New {% endif %}Post</h2>
+            <form action="" method="post" class="form-control" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{form.as_p}}
+                <input type="submit" value="{%if id%}Save{%else%}Add{%endif%}" class="btn btn-primary">
+            </form>
+        </div>
+    </div>
+</div>
+
 {% endblock content %}
+

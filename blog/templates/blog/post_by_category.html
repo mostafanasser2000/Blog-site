@@ -1,10 +1,11 @@
 {% extends 'base.html' %}
 {% load static %}
-
 {% block content %}
+
 <div class="container">
     <div class="row">
         <div class="col-sm-6">
+            <h2>{{category}}</h2>
             {% for post in posts %}
             <div class="card mb-4">
                 <a href="{% url 'post-item' post.id%}" style="color: inherit; text-decoration: none">
@@ -21,32 +22,11 @@
                                     {{ post.published_at| date:'Y-m-d' }}
                                 </time>
                             </span></small><br>
-                        <p>By <a href="{% url 'post-by-author' post.author.username%}" class="link-primary">{{post.author.username|title}}</a></p>
                     </div>
                 </a>
             </div>
             {% endfor %}
         </div>
-
-        <div class="col-sm-6 " class="category-filter">
-            <h3>Categories</h3>
-            <div class="row">
-            {% for category in categories%}
-                <div class="col-auto">
-                    <a href="{% url 'post-by-category' category.id%}" class="category">{{category.title}}</a>
-                </div>
-            {%endfor%}
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col">
-            
-        </div>
     </div>
 </div>
-
-</div>
-
-
 {% endblock content %}

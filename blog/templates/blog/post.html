@@ -2,7 +2,39 @@
 
 
 {% block content %}
-<h2>{{ post.title }}</h2>
-<small>Published on {{ post.published_at| date:"M d, Y" }} by {{ post.author | title}}</small>
-<p>{{post.content}}</p>
+<div class="container">
+        <div class="row">
+                <div class="col-sm-8">
+                        <h1>{{ post.title }}</h1>
+                        {% if request.user != post.author %}
+                                <p      >By {{post.author.username}}</p>
+                        {%endif%}
+                        <p>{{post.content}}</p>
+                        {%if request.user.is_authenticated and request.user == post.author%}
+                        <p>
+                                <a href="{% url 'post-edit' post.id%}" class="btn btn-primary">Edit</a>
+                                <a href="{% url 'post-delete' post.id%}" class="btn btn-danger">Delete</a>
+                        </p>
+                        {%endif%}
+                        <div class="row mt-3">
+                                {% for category in post.categories.all%}
+                                <div class="col-auto">
+                                        <a href="{% url 'post-by-category' category.id%}"
+                                                class="category">{{category.title}}</a>
+                                </div>
+                                {%endfor%}
+                        </div>
+                </div>
+                {% if related_posts%}
+                <div class="col-sm-2">
+                        <h3>Related Posts</h3>
+                        {% for post in related_posts%}
+                        <p><a href="{% url 'post-item' post.id%}" class="link-primary">{{post.title|title}}</a></p>
+                        {%endfor%}
+                </div>
+                {% endif %}
+
+        </div>
+
+</div>
 {% endblock content %}

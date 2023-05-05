@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Post
+from .models import Post, Category
 from .forms import PostForm
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -12,15 +12,13 @@ from django.urls import reverse
 def home(request, name):
     user = User.objects.get(username=name)
     posts = Post.objects.filter(author=user)
-    return render(request, 'blog/home.html', {'posts': posts})
+    return render(request, 'blog/home.html', {'posts': posts, 'author': user.username})
 
 def forum(request):
     posts = Post.objects.all()
-    
-    return render(request, 'blog/forum.html', {'posts': posts})
+    categories = Category.objects.all()
+    return render(request, 'blog/forum.html', {'posts': posts, 'categories': categories})
 
-def about(request):
-    return render(request, 'blog/about.html')
 
 @login_required
 def create_post(request):
@@ -28,7 +26,7 @@ def create_post(request):
         context = {'form': PostForm()}
         return render(request, 'blog/post_form.html', context)
     elif request.method == 'POST':
-        form = PostForm(request.POST)
+        form = PostForm(request.POST, request.FILES)
         if form.is_valid():
             post = form.save(commit=False)
             post.author = request.user
@@ -49,7 +47,7 @@ def edit_post(request, id):
         context = {'form': PostForm(instance=post), 'id': id}
         return render(request, 'blog/post_form.html', context)
     elif request.method == 'POST':
-        form = PostForm(request.POST, instance=post)
+        form = PostForm(request.POST, request.FILES,instance=post)
         if form.is_valid():
             form.save()
             messages.success(request, 'The post has been updated sucessfully')
@@ -77,4 +75,17 @@ def delete_post(request, id):
 
 def post_item(request, id):
     post = get_object_or_404(Post, pk=id)
-    return render(request, "blog/post.html", {'post': post})
+    
+    categories = []
+    for category in post.categories.all():
+        categories.append(category.title)
+        
+    related_posts = Post.objects.filter(categories__title__in=categories).exclude(pk=id)[0:3]
+    
+    return render(request, "blog/post.html", {'post': post, 'related_posts': related_posts})
+
+
+def post_category(request, id):
+    category = Category.objects.get(id=id)
+    posts = Post.objects.filter(categories__title__in=[category])
+    return render(request, 'blog/post_by_category.html', {'posts': posts, 'category': category})

@@ -1,0 +1,5 @@
+blog/migrations/__pycache__
+blog/__pycache__
+users/__pycache__
+users/migrations/__pycache__
+core/__pycache__

@@ -2,11 +2,18 @@
 
 
 {% block content %}
-<form action="" method="POST" novalidate>
-    {% csrf_token%}
-    <h2>Login</h2>
-    {{form.as_p}}
-    <input type="submit" value="Login">
-    <p>Don't have account? <a href="{% url 'register'%}">Register</a></p>
-</form>
+<div class="container">
+    <div class="row">
+        <h2>Login</h2>
+        <div class="col">
+            <form action="" method="POST" class="form-control">
+                {% csrf_token%}
+                {{form.as_p}}
+                <input type="submit" value="Login" class="btn btn-primary">
+                <p>Don't have account? <a href="{% url 'register'%}">Register</a></p>
+            </form>
+        </div>
+    </div>
+</div>
+
 {% endblock content %}

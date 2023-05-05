@@ -1,13 +1,43 @@
 {% extends 'base.html' %}
+{%load static%}
+
 
 {% block content %}
-<h1>My Posts</h1>
-{% for post in posts %}
-<h2>{{ post.title }}</h2>
-<small>Published on {{ post.published_at| date:"M d, Y"  }} by {{ post.author | title}}</small>
-<p>{{ post.content }}</p>
-{% if request.user.is_authenticated and request.user == post.author %}
-    <p><a href="{% url 'post-edit' post.id %}">Edit</a>| <a href="{% url 'post-delete' post.id%}">Delete</a></p>
-{% endif %}
-{% endfor %}
+
+
+<div class="container">
+    {% if request.user == author %}
+    <div class="row mb-3">
+        <div class="col">
+            <h2><strong>Author: </strong><em>{{author | title}}</em></h2>
+        </div>
+    </div>
+    {% endif %}
+    <div class="row">
+        <div class="col-sm-6">
+            {% for post in posts %}
+            <div class="card mb-4">
+                <a href="{% url 'post-item' post.id%}" style="color: inherit; text-decoration: none">
+                    {% if post.image %}
+                    <img src="{{post.image.url}}" class="img-fluid card-img-top" alt="Blog image" style="width: 100%;">
+                    {%else%}
+                    <img src="{% static 'images/default.png'%}" class="img-fluid card-img-top" alt="Blog image">
+                    {%endif%}
+                    <div class="card-body">
+                        <h5 class="card-title">{{ post.title }}</h5>
+                        <p class="card-text"></p>
+                        <small>Published on <span class="text-muted">
+                                <time datetime="{{ post.published_at| date:'Y-m-d'}}">
+                                    {{ post.published_at| date:'Y-m-d' }}
+                                </time>
+                            </span></small><br>
+                    </div>
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+
+    </div>
+</div>
 {% endblock content %}
+<p></p>
